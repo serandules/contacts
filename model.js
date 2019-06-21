@@ -9,7 +9,7 @@ var model = require('model');
 var types = validators.types;
 var requires = validators.requires;
 
-var contact = Schema({
+var schema = Schema({
     name: {
         type: String,
         required: true,
@@ -59,13 +59,22 @@ var contact = Schema({
     }
 }, {collection: 'contacts'});
 
-contact.plugin(mongins());
-contact.plugin(mongins.user);
-contact.plugin(mongins.createdAt());
-contact.plugin(mongins.updatedAt());
+schema.plugin(mongins());
+schema.plugin(mongins.user);
+schema.plugin(mongins.permissions({
+    workflow: 'model'
+}));
+schema.plugin(mongins.status({
+    workflow: 'model'
+}));
+schema.plugin(mongins.visibility({
+    workflow: 'model'
+}));
+schema.plugin(mongins.createdAt());
+schema.plugin(mongins.updatedAt());
 
-model.ensureIndexes(contact, [
+model.ensureIndexes(schema, [
     {createdAt: 1, _id: 1}
 ]);
 
-module.exports = mongoose.model('contacts', contact);
+module.exports = mongoose.model('contacts', schema);
