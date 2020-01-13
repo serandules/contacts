@@ -19,29 +19,15 @@ var schema = Schema({
     },
     email: {
         type: String,
+        verify: true,
         require: requires.contacts(),
         validator: types.email()
     },
-    phones: {
-        type: [String],
-        require: requires.contacts(),
-        validator: types.phones({
-            max: 5
-        })
-    },
-    viber: {
+    phone: {
         type: String,
+        verify: true,
         require: requires.contacts(),
-        validator: types.string({
-            length: 100
-        })
-    },
-    whatsapp: {
-        type: String,
-        require: requires.contacts(),
-        validator: types.string({
-            length: 100
-        })
+        validator: types.phone()
     },
     messenger: {
         type: String,
