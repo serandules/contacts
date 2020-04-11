@@ -19,13 +19,13 @@ var schema = Schema({
     },
     email: {
         type: String,
-        verify: true,
+        verify: ['reviewing', 'unpublished', 'published'],
         require: requires.contacts(),
         validator: types.email()
     },
     phone: {
         type: String,
-        verify: true,
+        verify: ['reviewing', 'unpublished', 'published'],
         require: requires.contacts(),
         validator: types.phone()
     },
@@ -47,6 +47,9 @@ var schema = Schema({
 
 schema.plugin(mongins());
 schema.plugin(mongins.user());
+schema.plugin(mongins._({
+    workflow: 'model'
+}));
 schema.plugin(mongins.permissions({
     workflow: 'model'
 }));
